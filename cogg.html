@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毕业成绩计算</title>
+    <!-- 网站说明 -->
+    <meta name="description"
+        content="大学生体测信息管理系统是一款用于管理大学生体测信息的软件。该系统具有录入、查询、统计、分析、导出等功能，可以方便地对大学生的体测数据进行管理和分析，为学校的体育工作提供了有力的支持。通过该系统，可以更好地掌握学生的体质状况，为学生的身体健康和学校的体育教学提供保障。" />
+    <!-- 关键字 -->
+    <meta name=" keywords" content="大学生体测信息管理系统：管理大学生体测信息，包括身高、体重、BMI等指标，支持查询、修改和统计功能。" />
+    <!-- 引入favicon图标 -->
+    <link rel="shortcut icon" href="bitbug_favicon.ico" />
+    <!-- 导入SweetAlert包修改alert样式 -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- 导入jQuery包 -->
+    <script src="./js/jQuery.min.js"></script>
+    <!-- 导入鼠标点击样式 -->
+    <script src="./js/mouse.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        input {
+            border: 0;
+            outline: none;
+        }
+
+        /* em 和 i 斜体的文字不倾斜 */
+        em,
+        i {
+            font-style: normal
+        }
+
+        /* 去掉li 的小圆点 */
+        li {
+            list-style: none
+        }
+
+        img {
+            /* border 0 照顾低版本浏览器 如果 图片外面包含了链接会有边框的问题 */
+            border: 0;
+            /* 取消图片底侧有空白缝隙的问题 */
+            vertical-align: middle
+        }
+
+        button {
+            /* 当我们鼠标经过button 按钮的时候，鼠标变成小手 */
+            cursor: pointer
+        }
+
+        button,
+        input {
+            /* "\5B8B\4F53" 就是宋体的意思 这样浏览器兼容性比较好 */
+            font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+            /* 默认有灰色边框我们需要手动去掉 */
+            border: 0;
+            outline: none;
+        }
+
+        body {
+            /* CSS3 抗锯齿形 让文字显示的更加清晰 */
+            -webkit-font-smoothing: antialiased;
+            background-color: #fff;
+            font: 12px/1.5 Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+            color: black;
+        }
+
+        .hide,
+        .none {
+            display: none
+        }
+
+        /* 清除浮动 */
+        .clearfix:after {
+            visibility: hidden;
+            clear: both;
+            display: block;
+            content: ".";
+            height: 0
+        }
+
+        .clearfix {
+            *zoom: 1
+        }
+
+        .w {
+            margin: 0 auto;
+            width: 800px;
+        }
+
+        .header {
+            margin-top: 30px;
+            background-color: rgba(135, 206, 235, .3);
+        }
+
+        .header .top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dashed rgb(102, 153, 255);
+        }
+
+        .header .middle {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 40px 30px;
+        }
+
+        .header .middle input {
+            position: absolute;
+            right: 30px;
+            height: 50px;
+            color: skyblue;
+            font-size: 30px;
+            font-weight: 700;
+            background-color: rgba(135, 206, 235, .0);
+        }
+
+        .outBottom {
+            padding: 30px 0;
+            color: #808080;
+        }
+
+        .body ul li {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            height: 80px;
+            width: 800px;
+            padding-left: 20px;
+            border: 1px solid rgba(96, 102, 126, 0.163)
+        }
+
+        .body ul li input {
+            position: absolute;
+            right: 20px;
+            color: #808080;
+        }
+
+        .right {
+            position: absolute;
+            top: 200px;
+            right: 100px;
+        }
+
+        .right a {
+            margin-top: 10px;
+            display: block;
+            width: 100px;
+            height: 40px;
+            color: black;
+            text-align: center;
+            line-height: 40px;
+            background-color: rgba(135, 206, 235, .3);
+        }
+
+        #refresh {
+            width: 100px;
+            height: 40px;
+            background-color: rgba(135, 206, 235, .3);
+        }
+
+        #refresh:hover,
+        .right a:hover {
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="header w">
+        <div class="top">
+            <span>输入分数，自动计算毕业</span>
+        </div>
+        <div class="middle">
+            毕业分数：<input type="text" name="point" id="point" maxlength="0" value="0" dir="rtl" autocomplete="off"
+                disabled="disabled">
+        </div>
+    </div>
+    <div class="outBottom w">
+        按毕业当年体测分数的50%与其他学年总平均分的50%之和计算，
+        高校、中职、高中毕业分数未达50分按结业或肄业处理
+    </div>
+    <div class="body w">
+        <ul id="ulPoint">
+            <li>大一分数<input type="text" name="freshman" id="freshman" maxlength="10" value="请输入" dir="rtl"
+                    autocomplete="off" data-id=1>
+            </li>
+            <li>大二分数<input type="text" name="sophomore" id="sophomore" maxlength="10" value="请输入" dir="rtl"
+                    autocomplete="off" data-id=2>
+            </li>
+            <li>大三分数<input type="text" naem="junior" id="junior" maxlength="10" value="请输入" dir="rtl" autocomplete="off"
+                    data-id=3>
+            </li>
+            <li>大四分数<input type="text" name="senior" id="senior" maxlength="10" value="请输入" dir="rtl" autocomplete="off"
+                    data-id=4>
+            </li>
+        </ul>
+    </div>
+    <div class="right">
+        <input type="button" onclick="javascript:location.reload();" value="重置" id="refresh">
+        <a href="index.html">返回</a>
+    </div>
+    <script>
+        let numArr = 0
+        let sum = 0
+        $('#ulPoint li input').on('focus', function () {
+            sum = 0
+            $(this).val('').css('color', 'black')
+        })
+        $('#ulPoint li input').on('blur', function () {
+            if (!($(this).data('id') === 4)) {
+                const str = $(this).val()
+                const ret = /^100$|^(\d|[1-9]\d)$/
+                if (!ret.test(str)) {
+                    $(this).val('请输入').css('color', '#808080').blur()
+                }
+                else {
+                    if (sum === 0) {
+                        sum++
+                        numArr += Math.round(str / 2 * 0.3)
+                        $('#point').val(numArr)
+                        $(this).attr("disabled", true).css('background-color', '#fff')
+                    }
+                }
+            }
+            else {
+                const str = $(this).val()
+                const ret = /^100$|^(\d|[1-9]\d)$/
+                if (!ret.test(str)) {
+                    $(this).val('请输入').css('color', '#808080').blur()
+                }
+                else {
+                    if (sum === 0) {
+                        sum++
+                        numArr += Math.round(str / 2)
+                        $('#point').val(numArr)
+                        $(this).attr("disabled", true).css('background-color', '#fff')
+                    }
+                }
+            }
+        })
+
+        $('#ulPoint li input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                if (!($(this).data('id') === 4)) {
+                    const str = $(this).val()
+                    const ret = /^100$|^(\d|[1-9]\d)$/
+                    if (!ret.test(str)) {
+                        swal('请输入0-100的整数！')
+                        $(this).val('请输入').css('color', '#808080').blur()
+                    }
+                    else {
+                        if (sum === 0) {
+                            sum++
+                            numArr += Math.round(str / 2 * 0.3)
+                            $('#point').val(numArr)
+                            $(this).attr("disabled", true).css('background-color', '#fff')
+                        }
+                    }
+                }
+                else {
+                    const str = $(this).val()
+                    const ret = /^100$|^(\d|[1-9]\d)$/
+                    if (!ret.test(str)) {
+                        swal('请输入0-100的整数！')
+                        $(this).val('请输入').css('color', '#808080').blur()
+                    }
+                    else {
+                        if (sum === 0) {
+                            sum++
+                            numArr += Math.round(str / 2)
+                            $('#point').val(numArr)
+                            $(this).attr("disabled", true).css('background-color', '#fff')
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国家体测要求</title>
+    <!-- 网站说明 -->
+    <meta name="description"
+        content="大学生体测信息管理系统是一款用于管理大学生体测信息的软件。该系统具有录入、查询、统计、分析、导出等功能，可以方便地对大学生的体测数据进行管理和分析，为学校的体育工作提供了有力的支持。通过该系统，可以更好地掌握学生的体质状况，为学生的身体健康和学校的体育教学提供保障。" />
+    <!-- 关键字 -->
+    <meta name=" keywords" content="大学生体测信息管理系统：管理大学生体测信息，包括身高、体重、BMI等指标，支持查询、修改和统计功能。" />
+    <!-- 引入favicon图标 -->
+    <link rel="shortcut icon" href="../bitbug_favicon.ico" />
+    <!-- 导入鼠标点击样式 -->
+    <script src="../js/mouse.js"></script>
+    <style>
+        @font-face {
+            font-family: 'icomoon';
+            src: url('./fonts/icomoon.eot?j8y4q0');
+            src: url('./fonts/icomoon.eot?j8y4q0#iefix') format('embedded-opentype'),
+                url('./fonts/icomoon.ttf?j8y4q0') format('truetype'),
+                url('./fonts/icomoon.woff?j8y4q0') format('woff'),
+                url('./fonts/icomoon.svg?j8y4q0#icomoon') format('svg');
+            font-weight: normal;
+            font-style: normal;
+            font-display: block;
+        }
+
+        * {
+            font-size: 17px;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        input {
+            border: 0;
+            outline: none;
+        }
+
+        /* em 和 i 斜体的文字不倾斜 */
+        em,
+        i {
+            font-style: normal
+        }
+
+        /* 去掉li 的小圆点 */
+        li {
+            list-style: none
+        }
+
+        img {
+            /* border 0 照顾低版本浏览器 如果 图片外面包含了链接会有边框的问题 */
+            border: 0;
+            /* 取消图片底侧有空白缝隙的问题 */
+            vertical-align: middle
+        }
+
+        button {
+            /* 当我们鼠标经过button 按钮的时候，鼠标变成小手 */
+            cursor: pointer
+        }
+
+        button,
+        input {
+            /* "\5B8B\4F53" 就是宋体的意思 这样浏览器兼容性比较好 */
+            font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+            /* 默认有灰色边框我们需要手动去掉 */
+            border: 0;
+            outline: none;
+        }
+
+        body {
+            /* CSS3 抗锯齿形 让文字显示的更加清晰 */
+            -webkit-font-smoothing: antialiased;
+            font: 12px/1.5 Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+            color: black;
+        }
+
+        .hide,
+        .none {
+            display: none
+        }
+
+        /* 清除浮动 */
+        .clearfix:after {
+            visibility: hidden;
+            clear: both;
+            display: block;
+            content: ".";
+            height: 0
+        }
+
+        .clearfix {
+            *zoom: 1
+        }
+
+        .w {
+            margin: 0 auto;
+            width: 800px;
+        }
+
+        h4 {
+            font-size: 25px;
+        }
+
+        #first {
+            display: inline-block;
+            margin-top: 35px;
+        }
+
+        #img {
+            margin: 15px 0;
+        }
+
+        #project tr td:last-child a span {
+            font-family: 'icomoon';
+            font-size: 15px;
+        }
+
+        #project tr td:last-child a:hover {
+            color: red;
+        }
+
+        #exit a {
+            font-family: 'icomoon';
+            position: absolute;
+            top: 30px;
+            right: 400px;
+            color: black;
+            font-size: 30px;
+        }
+    </style>
+
+</head>
+
+<body class="w">
+    <h4 id="first">大学测哪些项目？</h4>
+    <div id="exit" title="返回首页"><a href="../index.html"></a></div>
+    <p style="font-size: 14px;">按国家要求，大学生每年都要去参加测试，测试数据由学校上报国家教育部，各项目均为必测项，体侧总分由各项目成绩按权重组成。</p>
+    <div id="project">
+        <table border="1px" cellspacing="0" width="448px">
+            <tr id="biaoti1">
+                <th style="background-color: rgb(231, 229, 229);">单项指标</th>
+                <th style="background-color:  rgb(231, 229, 229);;">权重%</th>
+                <th style="background-color:  rgb(231, 229, 229);;">操作</th>
+            </tr>
+            <tr>
+                <td>体重指数(BMI)</td>
+                <td>15</td>
+                <td><a href="./weight.html">单项评分标准<span></span></a></td>
+            </tr>
+            <tr>
+                <td>肺活量</td>
+                <td>15</td>
+                <td><a href="./height.html">单项评分标准<span></span></a></td>
+
+            </tr>
+            <tr>
+                <td>50米跑</td>
+                <td>20</td>
+                <td><a href="./50m.html">单项评分标准<span></span></a></td>
+
+            </tr>
+            <tr>
+                <td>坐体前屈</td>
+                <td>10</td>
+                <td><a href="./ztqq.html">单项评分标准<span></span></a></td>
+
+            </tr>
+            <tr>
+                <td>立定跳远</td>
+                <td>10</td>
+                <td><a href="./jump.html">单项评分标准<span></span></a></td>
+
+            </tr>
+            <tr>
+                <td>引体向上(男)/1分钟仰卧起坐(女)</td>
+                <td>10</td>
+                <td><a href="./ytxs.html">单项评分标准<span></span></a></td>
+
+            </tr>
+            <tr>
+                <td>1000米跑(男)/800米跑(女)</td>
+                <td>20</td>
+                <td><a href="./1000m.html">单项评分标准<span></span></a></td>
+
+            </tr>
+            <tr>
+                <td>视力(裸眼、窜镜、屈光)</td>
+                <td>不占分数</td>
+                <td><a href="./vision.html">单项评分标准<span></span></a></td>
+
+            </tr>
+        </table>
+    </div>
+
+    <div id="grade">
+        <h4>体侧分数评定等级</h4>
+        <table border="1px" cellspacing="0" width="448px">
+            <tr>
+                <th style="background-color:  rgb(231, 229, 229);;">等级</th>
+                <th style="background-color:  rgb(231, 229, 229);;">分数</th>
+            </tr>
+            <tr style="text-align: center;">
+                <td>优秀</td>
+                <td>≥90.0</td>
+            </tr>
+            <tr style="text-align: center;">
+                <td>良好</td>
+                <td>80.0~90.0</td>
+            </tr>
+            <tr style="text-align: center;">
+                <td>及格</td>
+                <td>60.0~79.9</td>
+            </tr>
+            <tr style="text-align: center;">
+                <td>不及格</td>
+                <td>≤59.9</td>
+            </tr>
+        </table>
+        <p style="font-size: 14px;">学生成绩达到良好及以上者，方可参加评优与评奖；成绩达到优秀者，方可获体育学分。测试不及格者，本学年度准予补测一次，补测仍不及格，则学年成绩为不合格。</p>
+    </div>
+    <div id="introduce">
+        <h4>体侧分数说明</h4>
+        <h5 style="padding-left: 2px; margin: 2px;">分数构成</h5>
+        <p style="padding-left: 2px; margin-top: 5px; font-size: 14px;">
+            1、学年总分由标准分与附加分之和构成，满分为120分。<br>
+            2、标准分由各单项指标得分与权重乘积之和组成，满分为100分。<br>
+            3、附加分根据实测成绩确定，即对成绩超过100分的加分指标进行加分，满分为20分。<br></p>
+        <h5 style="padding-left: 2px; margin: 2px;">加分项</h5>
+        <p style="padding-left: 2px; margin-top: 5px; font-size: 14px;">
+            男生加分指标：引1体向上和1000米跑，各占10分；<br>
+            女生加分指标：一分钟仰卧起坐和800米，各占10分。<br></p>
+        <h5 style="padding-left: 2px; margin: 2px;">毕业成绩说明</h5>
+        <p style="padding-left: 2px; margin-top: 5px; font-size: 14px;">
+            学生毕业时的成绩和等级，按毕业当年总分的50%与其他学年总分平均得分的50%之和进行评定。<br>
+            示例：x1、x2、×3分别代表大一到大三的体测总分，x4代表大四体测总分。<br>
+            <img src="./images/捕获.jpg" id="img"><br>
+            注：根据《国家学生体质健康标准》，毕业时的成绩达不到50分者按结业或肄业处理。<br>
+        </p>
+    </div>
+</body>
+
+</html>

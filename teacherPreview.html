@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大学生体测信息管理系统(教师端)</title>
+    <!-- 网站说明 -->
+    <meta name="description"
+        content="大学生体测信息管理系统是一款用于管理大学生体测信息的软件。该系统具有录入、查询、统计、分析、导出等功能，可以方便地对大学生的体测数据进行管理和分析，为学校的体育工作提供了有力的支持。通过该系统，可以更好地掌握学生的体质状况，为学生的身体健康和学校的体育教学提供保障。" />
+    <!-- 关键字 -->
+    <meta name=" keywords" content="大学生体测信息管理系统：管理大学生体测信息，包括身高、体重、BMI等指标，支持查询、修改和统计功能。" />
+    <!-- 引入favicon图标 -->
+    <link rel="shortcut icon" href="bitbug_favicon.ico" />
+    <!-- 导入bootstrap包 -->
+    <link rel="stylesheet" href="./css/bootstrap.css" />
+    <!-- 导入SweetAlert包修改alert样式 -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- 导入jQuery包 -->
+    <script src="./js/jQuery.min.js"></script>
+    <!-- 导入鼠标点击样式 -->
+    <script src="./js/mouse.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: red;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        input {
+            border: 0;
+            outline: none;
+        }
+
+        /* em 和 i 斜体的文字不倾斜 */
+        em,
+        i {
+            font-style: normal
+        }
+
+        /* 去掉li 的小圆点 */
+        li {
+            list-style: none
+        }
+
+        img {
+            /* border 0 照顾低版本浏览器 如果 图片外面包含了链接会有边框的问题 */
+            border: 0;
+            /* 取消图片底侧有空白缝隙的问题 */
+            vertical-align: middle
+        }
+
+        button {
+            /* 当我们鼠标经过button 按钮的时候，鼠标变成小手 */
+            cursor: pointer
+        }
+
+        input[type=number] {
+
+            /* 使input[type=number]的输入框不显示箭头  */
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+        }
+
+
+        button,
+        input {
+            /* "\5B8B\4F53" 就是宋体的意思 这样浏览器兼容性比较好 */
+            font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+            /* 默认有灰色边框我们需要手动去掉 */
+            border: 0;
+            outline: none;
+        }
+
+        body {
+            /* CSS3 抗锯齿形 让文字显示的更加清晰 */
+            -webkit-font-smoothing: antialiased;
+            background-color: #fff;
+            font: 12px/1.5 Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+            color: black;
+        }
+
+        .hide,
+        .none {
+            display: none
+        }
+
+        /* 清除浮动 */
+        .clearfix:after {
+            visibility: hidden;
+            clear: both;
+            display: block;
+            content: ".";
+            height: 0
+        }
+
+        .clearfix {
+            *zoom: 1
+        }
+
+        #btnAdd {
+            width: 95%;
+            margin-left: 2.5%;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        #studentNumberBox {
+            margin-left: 10px;
+        }
+
+        #sittingBox {
+            margin-left: 10px;
+        }
+
+        #hightbox {
+            margin-left: 72px;
+        }
+
+        #weightBox {
+            margin-left: 45px;
+        }
+
+        #lungsBox {
+            margin-left: 60px;
+        }
+
+        #_50MetersBox {
+            margin-left: 30px;
+        }
+
+        #_1000MetersBox {
+            margin-left: 30px;
+        }
+
+        #pullUpBox {
+            margin-left: 30px;
+        }
+
+        #jumpBox {
+            margin-left: 50px;
+        }
+    </style>
+</head>
+
+<body style="padding: 10px;">
+    <!-- 添加图书的Panel面板 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">修改学生数据</h3>
+        </div>
+        <div class="panel-body form-inline" id="panelbox">
+            <form id="form">
+                <div class="input-group" id="studentNumberBox">
+                    <div class="input-group-addon">学号</div>
+                    <input type="number" class="form-control" id="studentNumber" placeholder="请输入学号">
+                </div>
+
+                <div class="input-group" id="hightbox">
+                    <div class="input-group-addon">身高</div>
+                    <input type="number" class="form-control" id="height" placeholder="请输入">
+                </div>
+                <div class="input-group" id="weightBox">
+                    <div class="input-group-addon">体重</div>
+                    <input type="number" class="form-control" id="weight" placeholder="请输入">
+                </div>
+                <div class="input-group" id="lungsBox">
+                    <div class="input-group-addon">肺活量</div>
+                    <input type="number" class="form-control" id="lungs" placeholder="请输入">
+                </div>
+                <div class="input-group" id="jumpBox">
+                    <div class="input-group-addon">立定跳远</div>
+                    <input type="number" class="form-control" id="jump" placeholder="请输入">
+                </div>
+                <div class="input-group" id="sittingBox">
+                    <div class="input-group-addon">坐位体前屈</div>
+                    <input type="number" class="form-control" id="sitting" placeholder="请输入">
+                </div>
+                <div class="input-group" id="_50MetersBox">
+                    <div class="input-group-addon">50m跑</div>
+                    <input type="number" class="form-control" id="_50Meters" placeholder="请输入">
+                </div>
+                <div class="input-group" id="_1000MetersBox">
+                    <div class="input-group-addon">1000m跑</div>
+                    <input type="number" class="form-control" id="_1000Meters" placeholder="请输入">
+                </div>
+                <div class="input-group" id="pullUpBox">
+                    <div class="input-group-addon">引体向上</div>
+                    <input type="number" class="form-control" id="pullUp" placeholder="请输入">
+                </div>
+                <button id="btnAdd" class="btn btn-primary" type='button'>修改</button>
+            </form>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>密码</th>
+                <th>性别</th>
+                <th>出生日期</th>
+                <th>邮箱</th>
+                <th>身高</th>
+                <th>体重</th>
+                <th>肺活量</th>
+                <th>立定跳远</th>
+                <th>坐位体前屈</th>
+                <th>50m跑</th>
+                <th>1000m跑</th>
+                <th>引体向上</th>
+                <th>总分</th>
+            </tr>
+        </thead>
+        <tbody id="tb"></tbody>
+    </table>
+
+    <script>
+        // 获取学号
+        const arr = JSON.parse(localStorage.getItem('userIdArr'))
+        let numArr = 0
+
+        // 封装渲染函数
+        function render() {
+            $('#tb').empty()
+            $.each(arr, (index, e) => {
+                const arrD = JSON.parse(localStorage.getItem('d' + e))
+                const arrS = JSON.parse(localStorage.getItem('s' + e))
+                $('#tb').append(`<tr id="${'_' + index}">
+                <td  class="studentNumber">${arrD[0].value}</td>
+                <td onclick="getTotalScore(this)">${arrD[1].value}</td>
+                <td>${arrD[2].value}</td>
+                <td>${arrD[4].value === 'boy' || '男' ? '男' : '女'}</td>
+                <td>${arrD[5].value}</td>
+                <td>${arrD[6].value}</td>
+                <td class="height">${arrS === null ? '未填写' : arrS[0].身高 + '厘米'}</td>
+                <td class="weight">${arrS === null ? '未填写' : arrS[1].体重 + '公斤'}</td>
+                <td class="lungs">${arrS === null ? '未填写' : arrS[2].肺活量 + '毫米'}</td>
+                <td class="jump">${arrS === null ? '未填写' : arrS[3].立定跳远 + '厘米'}</td>
+                <td class="sitting">${arrS === null ? '未填写' : arrS[4].坐位体前屈 + '厘米'}</td>
+                <td class="_50Meters">${arrS === null ? '未填写' : arrS[5].五十米跑 + '秒'}</td >
+                <td class="_1000Meters">${arrS === null ? '未填写' : arrS[6].一千米跑 + '秒'}</td>
+                <td class="pullUp">${arrS === null ? '未填写' : arrS[7].引体向上 + '个'}</td>
+                <td class="total">${arrS === null ? '未填写' : JSON.parse(localStorage.getItem('s' + e))[8].总分}</td>
+            </tr >`)
+            })
+        }
+        render()
+
+        // 创建点击事件进行数据修改
+        $('#btnAdd').on('click', () => {
+            if ($('#height').val() !== '' && $('#weight').val() !== '' &&
+                $('#lungs').val() !== '' && $('#jump').val() !== '' &&
+                $('#sitting').val() !== '' && $('#_50Meters').val() !== '' &&
+                $('#_1000Meters').val() !== '' && $('#pullUp').val() !== '') {
+                let num = null
+                total()
+                $.each(arr, (index, e) => {
+                    if ($('#studentNumber').val() === e) {
+                        num = e
+                        return
+                    }
+                })
+                const data = JSON.parse(localStorage.getItem('s' + num))
+                data.splice(0, 1, { '身高': $('#height').val() })
+                data.splice(1, 1, { '体重': $('#weight').val() })
+                data.splice(2, 1, { '肺活量': $('#lungs').val() })
+                data.splice(3, 1, { '立定跳远': $('#jump').val() })
+                data.splice(4, 1, { '坐位体前屈': $('#sitting').val() })
+                data.splice(5, 1, { '五十米跑': $('#_50Meters').val() })
+                data.splice(6, 1, { '一千米跑': $('#_1000Meters').val() })
+                data.splice(7, 1, { '引体向上': $('#pullUp').val() })
+                data.splice(8, 1, { '总分': numArr })
+                localStorage.setItem('s' + num, JSON.stringify(data))
+                swal('修改成功！')
+                render()
+            }
+            else {
+                swal('请填写完表单！')
+            }
+            $('#form')[0].reset()
+        })
+
+        // 封装总分计算函数
+        function total() {
+            numArr = 0
+            const height = +$('#height').val()
+            const weight = +$('#weight').val()
+            const lungs = +$('#lungs').val()
+            const jump = +$('#jump').val()
+            const sitting = +$('#sitting').val()
+            const run50 = +$('#_50Meters').val()
+            const run1000 = +$('#_1000Meters').val()
+            const pullUp = +$('#pullUp').val()
+
+            // 体重分数计算
+            let weightPoint = 0
+            const mWeightCriteria = weight / Math.pow(height / 100, 2)
+            if (mWeightCriteria >= 17.9 && mWeightCriteria <= 23.9) {
+                weightPoint = 100
+            }
+            else if (mWeightCriteria >= 24 && mWeightCriteria <= 27.9 || mWeightCriteria <= 17.8) {
+                weightPoint = 80
+            }
+            else if (mWeightCriteria >= 28) {
+                weightPoint = 60
+            }
+            numArr += Math.round(weightPoint * 0.15)
+
+            // 肺活量分数计算
+            let lungsPoint = 0
+            if (lungs >= 5040) {
+                lungsPoint = 100
+            }
+            else if (lungs >= 4920 && lungs < 5040) {
+                lungsPoint = 95
+            }
+            else if (lungs >= 4800 && lungs < 4920) {
+                lungsPoint = 90
+            }
+            else if (lungs >= 4550 && lungs < 4800) {
+                lungsPoint = 85
+            }
+            else if (lungs >= 4300 && lungs < 4550) {
+                lungsPoint = 80
+            }
+            else if (lungs >= 4180 && lungs < 4300) {
+                lungsPoint = 78
+            }
+            else if (lungs >= 4060 && lungs < 4180) {
+                lungsPoint = 76
+            }
+            else if (lungs >= 3940 && lungs < 4060) {
+                lungsPoint = 74
+            }
+            else if (lungs >= 3820 && lungs < 3940) {
+                lungsPoint = 72
+            }
+            else if (lungs >= 3700 && lungs < 3820) {
+                lungsPoint = 70
+            }
+            else if (lungs >= 3580 && lungs < 3700) {
+                lungsPoint = 68
+            }
+            else if (lungs >= 3460 && lungs < 3580) {
+                lungsPoint = 66
+            }
+            else if (lungs >= 3340 && lungs < 3460) {
+                lungsPoint = 64
+            }
+            else if (lungs >= 3220 && lungs < 3340) {
+                lungsPoint = 62
+            }
+            else if (lungs >= 3100 && lungs < 3220) {
+                lungsPoint = 60
+            }
+            else if (lungs >= 2940 && lungs < 3100) {
+                lungsPoint = 50
+            }
+            else if (lungs >= 2780 && lungs < 2940) {
+                lungsPoint = 40
+            }
+            else if (lungs >= 2620 && lungs < 2780) {
+                lungsPoint = 30
+            }
+            else if (lungs >= 2460 && lungs < 2620) {
+                lungsPoint = 20
+            }
+            else if (lungs >= 2300 && lungs < 2460) {
+                lungsPoint = 10
+            }
+            numArr += +((lungsPoint * 0.15).toFixed(1))
+
+            // 立定跳远分数计算
+            let jumpPoint = 0
+            if (jump >= 273) {
+                jumpPoint = 100
+            }
+            else if (jump >= 268 && jump < 273) {
+                jumpPoint = 95
+            }
+            else if (jump >= 263 && jump < 268) {
+                jumpPoint = 90
+            }
+            else if (jump >= 256 && jump < 263) {
+                jumpPoint = 85
+            }
+            else if (jump >= 248 && jump < 256) {
+                jumpPoint = 80
+            }
+            else if (jump >= 244 && jump < 248) {
+                jumpPoint = 78
+            }
+            else if (jump >= 240 && jump < 244) {
+                jumpPoint = 76
+            }
+            else if (jump >= 236 && jump < 240) {
+                jumpPoint = 74
+            }
+            else if (jump >= 232 && jump < 236) {
+                jumpPoint = 72
+            }
+            else if (jump >= 228 && jump < 232) {
+                jumpPoint = 70
+            }
+            else if (jump >= 224 && jump < 228) {
+                jumpPoint = 68
+            }
+            else if (jump >= 220 && jump < 224) {
+                jumpPoint = 66
+            }
+            else if (jump >= 216 && jump < 220) {
+                jumpPoint = 64
+            }
+            else if (jump >= 212 && jump < 216) {
+                jumpPoint = 62
+            }
+            else if (jump >= 208 && jump < 212) {
+                jumpPoint = 60
+            }
+            else if (jump >= 203 && jump < 208) {
+                jumpPoint = 50
+            }
+            else if (jump >= 198 && jump < 203) {
+                jumpPoint = 40
+            }
+            else if (jump >= 193 && jump < 198) {
+                jumpPoint = 30
+            }
+            else if (jump >= 188 && jump < 193) {
+                jumpPoint = 20
+            }
+            else if (jump >= 183 && jump < 188) {
+                jumpPoint = 10
+            }
+            numArr += +((jumpPoint * 0.1).toFixed(1))
+
+            // 坐位体前屈分数计算
+            let sittingPoint = 0
+            if (sitting >= 24.9) {
+                sittingPoint = 100
+            }
+            else if (sitting >= 23.1 && sitting < 24.9) {
+                sittingPoint = 95
+            }
+            else if (sitting >= 21.3 && sitting < 23.1) {
+                sittingPoint = 90
+            }
+            else if (sitting >= 19.5 && sitting < 21.3) {
+                sittingPoint = 85
+            }
+            else if (sitting >= 17.7 && sitting < 19.5) {
+                sittingPoint = 80
+            }
+            else if (sitting >= 16.3 && sitting < 17.7) {
+                sittingPoint = 78
+            }
+            else if (sitting >= 14.9 && sitting < 16.3) {
+                sittingPoint = 76
+            }
+            else if (sitting >= 13.5 && sitting < 14.9) {
+                sittingPoint = 74
+            }
+            else if (sitting >= 12.1 && sitting < 13.5) {
+                sittingPoint = 72
+            }
+            else if (sitting >= 10.7 && sitting < 12.1) {
+                sittingPoint = 70
+            }
+            else if (sitting >= 9.3 && sitting < 10.7) {
+                sittingPoint = 68
+            }
+            else if (sitting >= 7.9 && sitting < 9.3) {
+                sittingPoint = 66
+            }
+            else if (sitting >= 6.5 && sitting < 7.9) {
+                sittingPoint = 64
+            }
+            else if (sitting >= 5.1 && sitting < 6.5) {
+                sittingPoint = 62
+            }
+            else if (sitting >= 3.7 && sitting < 5.1) {
+                sittingPoint = 60
+            }
+            else if (sitting >= 2.7 && sitting < 3.7) {
+                sittingPoint = 50
+            }
+            else if (sitting >= 1.7 && sitting < 2.7) {
+                sittingPoint = 40
+            }
+            else if (sitting >= 0.7 && sitting < 1.7) {
+                sittingPoint = 30
+            }
+            else if (sitting >= -0.3 && sitting < 0.7) {
+                sittingPoint = 20
+            }
+            else if (sitting >= -1.3 && sitting < -0.3) {
+                sittingPoint = 10
+            }
+            numArr += +((sittingPoint * 0.1).toFixed(1))
+
+            // 50m跑分数计算
+            let run50Point = 0
+            if (run50 <= 6.7) {
+                run50Point = 100
+            }
+            else if (run50 <= 6.8 && run50 > 6.7) {
+                run50Point = 95
+            }
+            else if (run50 <= 6.9 && run50 > 6.8) {
+                run50Point = 90
+            }
+            else if (run50 <= 7 && run50 > 6.9) {
+                run50Point = 85
+            }
+            else if (run50 <= 7.1 && run50 > 7) {
+                run50Point = 80
+            }
+            else if (run50 <= 7.3 && run50 > 7.1) {
+                run50Point = 78
+            }
+            else if (run50 <= 7.5 && run50 > 7.3) {
+                run50Point = 76
+            }
+            else if (run50 <= 7.7 && run50 > 7.5) {
+                run50Point = 74
+            }
+            else if (run50 <= 7.9 && run50 > 7.7) {
+                run50Point = 72
+            }
+            else if (run50 <= 8.1 && run50 > 7.9) {
+                run50Point = 70
+            }
+            else if (run50 <= 8.3 && run50 > 8.1) {
+                run50Point = 68
+            }
+            else if (run50 <= 8.5 && run50 > 8.3) {
+                run50Point = 66
+            }
+            else if (run50 <= 8.7 && run50 > 8.5) {
+                run50Point = 64
+            }
+            else if (run50 <= 8.9 && run50 > 8.7) {
+                run50Point = 62
+            }
+            else if (run50 <= 9.1 && run50 > 8.9) {
+                run50Point = 60
+            }
+            else if (run50 <= 9.3 && run50 > 9.1) {
+                run50Point = 50
+            }
+            else if (run50 <= 9.5 && run50 > 9.3) {
+                run50Point = 40
+            }
+            else if (run50 <= 9.7 && run50 > 9.3) {
+                run50Point = 30
+            }
+            else if (run50 <= 9.9 && run50 > 9.7) {
+                run50Point = 20
+            }
+            else if (run50 <= 10.1 && run50 > 9.9) {
+                run50Point = 10
+            }
+            numArr += +((run50Point * 0.2).toFixed(1))
+
+            // 1000m分数计算
+            let run1000Point = 0
+            if (run1000 <= 197) {
+                run1000Point = 100
+            }
+            else if (run1000 <= 202 && run1000 > 197) {
+                run1000Point = 95
+            }
+            else if (run1000 <= 207 && run1000 > 202) {
+                run1000Point = 90
+            }
+
+            else if (run1000 <= 214 && run1000 > 207) {
+                run1000Point = 85
+            }
+
+            else if (run1000 <= 222 && run1000 > 214) {
+                run1000Point = 80
+            }
+
+            else if (run1000 <= 227 && run1000 > 222) {
+                run1000Point = 78
+            }
+
+            else if (run1000 <= 232 && run1000 > 227) {
+                run1000Point = 76
+            }
+
+            else if (run1000 <= 237 && run1000 > 232) {
+                run1000Point = 74
+            }
+
+            else if (run1000 <= 242 && run1000 > 237) {
+                run1000Point = 72
+            }
+
+            else if (run1000 <= 247 && run1000 > 242) {
+                run1000Point = 70
+            }
+
+            else if (run1000 <= 252 && run1000 > 247) {
+                run1000Point = 68
+            }
+
+            else if (run1000 <= 257 && run1000 > 252) {
+                run1000Point = 66
+            }
+
+            else if (run1000 <= 262 && run1000 > 257) {
+                run1000Point = 64
+            }
+
+            else if (run1000 <= 267 && run1000 > 262) {
+                run1000Point = 62
+            }
+
+            else if (run1000 <= 272 && run1000 > 267) {
+                run1000Point = 60
+            }
+
+            else if (run1000 <= 292 && run1000 > 272) {
+                run1000Point = 50
+            }
+
+            else if (run1000 <= 312 && run1000 > 292) {
+                run1000Point = 40
+            }
+            else if (run1000 <= 332 && run1000 > 312) {
+                run1000Point = 30
+            }
+            else if (run1000 <= 352 && run1000 > 332) {
+                run1000Point = 20
+            }
+            else if (run1000 <= 372 && run1000 > 352) {
+                run1000Point = 10
+            }
+            numArr += +((run1000Point * 0.2).toFixed(1))
+
+            // 引体向上分数计算
+            let pullUpPoint = 0
+            if (pullUp >= 19) {
+                pullUpPoint = 100
+            }
+            else if (pullUp === 18) {
+                pullUpPoint = 95
+            }
+            else if (pullUp === 17) {
+                pullUpPoint = 90
+            }
+            else if (pullUp === 16) {
+                pullUpPoint = 85
+            }
+            else if (pullUp === 15) {
+                pullUpPoint = 80
+            }
+            else if (pullUp === 14) {
+                pullUpPoint = 76
+            }
+            else if (pullUp === 13) {
+                pullUpPoint = 72
+            }
+            else if (pullUp === 12) {
+                pullUpPoint = 68
+            }
+            else if (pullUp === 11) {
+                pullUpPoint = 64
+            }
+            else if (pullUp === 10) {
+                pullUpPoint = 60
+            }
+            else if (pullUp === 9) {
+                pullUpPoint = 50
+            }
+            else if (pullUp === 8) {
+                pullUpPoint = 40
+            }
+            else if (pullUp === 7) {
+                pullUpPoint = 30
+            }
+            else if (pullUp === 6) {
+                pullUpPoint = 20
+            }
+            else if (pullUp === 5) {
+                pullUpPoint = 10
+            }
+            numArr += +((pullUpPoint * 0.1).toFixed(1))
+
+            numArr = numArr.toFixed(1)
+        }
+
+        // 点击事件实现数据跳转到输入框
+        function getTotalScore(element) {
+            if (confirm('是否添加？')) {
+                const id = element.parentNode.id
+                const studentNumber = +document.querySelector(`#${id} .studentNumber`).innerHTML
+                const height = parseInt(document.querySelector(`#${id} .height`).innerHTML)
+                const weight = parseInt(document.querySelector(`#${id} .weight`).innerHTML)
+                const lungs = parseInt(document.querySelector(`#${id} .lungs`).innerHTML)
+                const jump = parseInt(document.querySelector(`#${id} .jump`).innerHTML)
+                const sitting = parseInt(document.querySelector(`#${id} .sitting`).innerHTML)
+                const _50Meters = parseInt(document.querySelector(`#${id} ._50Meters`).innerHTML)
+                const _1000Meters = parseInt(document.querySelector(`#${id} ._1000Meters`).innerHTML)
+                const pullUp = parseInt(document.querySelector(`#${id} .pullUp`).innerHTML)
+
+                $('#studentNumber').val(studentNumber)
+                $('#height').val(height)
+                $('#weight').val(weight)
+                $('#lungs').val(lungs)
+                $('#jump').val(jump)
+                $('#sitting').val(sitting)
+                $('#_50Meters').val(_50Meters)
+                $('#_1000Meters').val(_1000Meters)
+                $('#pullUp').val(pullUp)
+            }
+            else {
+                return
+            }
+        }
+
+    </script>
+</body>
+
+</html>

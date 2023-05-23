@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <!-- 网站说明 -->
+    <meta name="description"
+        content="大学生体测信息管理系统是一款用于管理大学生体测信息的软件。该系统具有录入、查询、统计、分析、导出等功能，可以方便地对大学生的体测数据进行管理和分析，为学校的体育工作提供了有力的支持。通过该系统，可以更好地掌握学生的体质状况，为学生的身体健康和学校的体育教学提供保障。" />
+    <!-- 关键字 -->
+    <meta name=" keywords" content="大学生体测信息管理系统：管理大学生体测信息，包括身高、体重、BMI等指标，支持查询、修改和统计功能。" />
+    <!-- 引入favicon图标 -->
+    <link rel="shortcut icon" href="bitbug_favicon.ico" />
+    <!-- 导入SweetAlert包修改alert样式 -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- 导入jQuery包 -->
+    <script src="./js/jQuery.min.js"></script>
+    <!-- 导入鼠标点击样式 -->
+    <script src="./js/mouse.js"></script>
+    <style>
+        @font-face {
+            font-family: "iconfont";
+            /* Project id 4066557 */
+            src: url('./font/iconfont.woff2?t=1684045407710') format('woff2'),
+                url('./font/iconfont.woff?t=1684045407710') format('woff'),
+                url('./font/iconfont.ttf?t=1684045407710') format('truetype');
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            margin: 100;
+            padding: 0;
+            background: url(./images/v2osk-1Z2niiBPg5A-unsplash.jpg) no-repeat 0px 0px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+        }
+
+        #loginDiv {
+            margin: 7% auto;
+            width: 37%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(75, 81, 95, 0.3);
+            box-shadow: 7px 7px 17px rgba(52, 56, 66, 0.5);
+            border-radius: 5px;
+        }
+
+        #name_trip {
+            margin-left: 50px;
+            color: red;
+        }
+
+        p,
+        .sexDiv {
+            margin-top: 25px;
+            margin-left: 20px;
+            color: azure;
+        }
+
+        .sexDiv input,
+        .hobby>input {
+            width: 30px;
+            height: 17px;
+        }
+
+        input,
+        select {
+            margin-left: 15px;
+            border-radius: 5px;
+            border-style: hidden;
+            height: 30px;
+            width: 140px;
+            background-color: rgba(216, 191, 216, 0.5);
+            outline: none;
+            color: #f0edf3;
+            padding-left: 10px;
+        }
+
+        .button {
+            border-color: cornsilk;
+            background-color: rgba(100, 149, 237, .7);
+            color: aliceblue;
+            border-style: hidden;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 31px;
+            width: 100px;
+            height: 31px;
+            font-size: 16px;
+        }
+
+        .introduce {
+            margin-left: 110px;
+        }
+
+        .introduce>textarea {
+            background-color: rgba(216, 191, 216, 0.5);
+            border-style: hidden;
+            outline: none;
+            resize: none;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            color: #f0edf3;
+        }
+
+        b {
+            margin-left: 50px;
+            color: #FFEB3B;
+            font-size: 10px;
+            font-weight: initial;
+        }
+
+        .logo {
+            position: absolute;
+            top: 0;
+            left: 35px;
+        }
+
+        #userType option {
+            font-weight: 500;
+            color: rgba(255, 0, 0, 0.264);
+        }
+
+        .prompt {
+            position: absolute;
+            top: 30px;
+            right: 100px;
+            font-size: 16px;
+        }
+
+        .prompt a span {
+            position: absolute;
+            top: -15px;
+            right: 62px;
+            font-family: "iconfont";
+            font-size: 50px;
+        }
+
+        .prompt a:hover {
+            color: red
+        }
+
+        #userId {
+            margin-left: 45px;
+        }
+
+        #password {
+            margin-left: 45px;
+        }
+
+        #boy {
+            margin-left: 35px;
+        }
+
+        .bottomP {
+            margin-top: 35px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="logo">
+        <h1>
+            大学生体测信息管理系统
+        </h1>
+    </div>
+    <div class="prompt">
+        <a href="logIn.html" title="前往登录"><span>&#xe601;</span>前往登录</a>
+    </div>
+    <div id="loginDiv">
+        <form id="registerForm" onkeydown="if(event.keyCode==13){return false;}">
+            <h1>注册</h1>
+            <p>学号:<input id="userId" name="userId" type="text" autocomplete="off"><label id="name_trip"></label>
+            </p>
+            <p>学生姓名:<input id="userNname" name="userNname" type="text" autocomplete="off"><label id="name_trip"></label>
+            </p>
+
+            <p>密码:<input id="password" name="password" type="password" autocomplete="off"><label
+                    id="password_trip"></label>
+            </p>
+
+            <p>确认密码:<input id="surePassword" name="surePassword" type="password" autocomplete="off"><label
+                    id="surePassword_trip"></label></p>
+
+            <div class="sexDiv">
+                性别:
+                <label for="boy"><input class="userSex" name="sex" value="boy" type="radio" id="boy">男</label>
+                <label for="girl"><input class="userSex" name="sex" value="girl" type="radio" id="girl">女</label>
+                <label id="sex_trip"></label>
+            </div>
+
+            <p>
+                出生日期:
+                <input id="birthday" name="birthday" type="date">
+                <label id="birthday_trip"></label>
+            </p>
+
+            <p>
+                电子邮箱:
+                <input id="email" name="email" type="email">
+                <label id="emil_trip"></label>
+            </p>
+
+            <p style="text-align: center;" class="bottomP">
+                <input type="submit" class="button" value="提交">
+                <input type="reset" class="button" value="重置">
+            </p>
+        </form>
+    </div>
+    <script>
+        let sum = 0
+        $('#loginDiv #registerForm input').on('focus', function () {
+            sum = 0
+        })
+
+        // 学号验证
+        $('#userId').on('blur', function () {
+            const str = $(this).val()
+            const ret = /^2\d{10}$/
+            if (sum === 0 && str !== '') {
+                if (!ret.test(str)) {
+                    sum++
+                    swal('请输入正确的学号！')
+                    $(this).val('').blur()
+                }
+            }
+        })
+        $('#userId').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                const str = $(this).val()
+                const ret = /^2\d{10}$/
+                if (sum === 0) {
+                    if (!ret.test(str)) {
+                        sum++
+                        swal('请输入正确的学号！')
+                        $(this).val('').blur()
+                    }
+                    else {
+                        $(this).blur()
+                    }
+                }
+            }
+        })
+
+        // 学生姓名验证
+        $('#userNname').on('blur', function (e) {
+            e.preventDefault()
+            const str = $(this).val()
+            const ret = /^[\u00B7\u3007\u3400-\u9FFF\uE000-\uF8FF\uF900-\uFAFF\u{20000}-\u{2FFFF}\u{30000}-\u{3FFFF}]+$/u
+            if (sum === 0) {
+                if (!ret.test(str) && str !== '') {
+                    sum++
+                    swal('请输入您的真实姓名！')
+                    $(this).val('').blur()
+                }
+            }
+        })
+        $('#userNname').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault()
+                const str = $(this).val()
+                const ret = /^[\u00B7\u3007\u3400-\u9FFF\uE000-\uF8FF\uF900-\uFAFF\u{20000}-\u{2FFFF}\u{30000}-\u{3FFFF}]+$/u
+                if (sum === 0) {
+                    if (!ret.test(str)) {
+                        sum++
+                        swal('请输入您的真实姓名！')
+                        $(this).val('').blur()
+                    }
+                    else {
+                        $(this).blur()
+                    }
+                }
+            }
+        })
+
+        // 密码验证
+        let password = ''
+        $('#password').on('blur', function () {
+            const str = $(this).val()
+            password = str
+            const ret = /^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,18}$/
+            if (sum === 0) {
+                if (!ret.test(str) && str !== '') {
+                    sum++
+                    swal('请输入由字母、数字组成，长度为8-18位的密码！')
+                    $(this).val('').blur()
+                }
+            }
+        })
+        $('#password').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                const str = $(this).val()
+                password = str
+                const ret = /^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,18}$/
+                if (sum === 0) {
+                    if (!ret.test(str)) {
+                        sum++
+                        swal('请输入由字母、数字组成，长度为8-18位的密码！')
+                        $(this).val('').blur()
+                    }
+                    else {
+                        $(this).blur()
+                    }
+                }
+            }
+        })
+
+        // 确认密码验证
+        $('#surePassword').on('blur', function () {
+            const str = $(this).val()
+            if (sum === 0) {
+                if (str !== password && str !== '') {
+                    sum++
+                    swal('两次密码输入的不一致！')
+                    $(this).val('').blur()
+                }
+            }
+        })
+        $('#surePassword').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                const str = $(this).val()
+                if (sum === 0) {
+                    if (str !== password) {
+                        sum++
+                        swal('两次密码输入的不一致！')
+                        $(this).val('').blur()
+                    }
+                    else {
+                        $(this).blur()
+                    }
+                }
+            }
+        })
+
+        // 电子邮箱验证
+        $('#email').on('blur', function () {
+            const str = $(this).val()
+            const ret = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+            if (sum === 0) {
+                if (!ret.test(str) && str !== '') {
+                    sum++
+                    swal('请输入正确的电子邮箱格式！')
+                    $(this).val('').blur()
+                }
+            }
+        })
+        $('#email').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                const str = $(this).val()
+                const ret = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+                if (sum === 0) {
+                    if (!ret.test(str)) {
+                        sum++
+                        swal('请输入正确的电子邮箱格式！')
+                        $(this).val('').blur()
+                    }
+                    else {
+                        $(this).blur()
+                    }
+                }
+            }
+        })
+
+        // 提交事件
+        $('#registerForm').on('submit', function (e) {
+            if ($('#userId').val() !== '' && $('#userNname').val() !== '' &&
+                $('#password').val() !== '' && $('#surePassword').val() !== '' &&
+                ($('#boy')[0].checked || $('#girl')[0].checked) && $('#birthday').val() !== '' && $('#email').val() !== '') {
+                e.preventDefault()
+                const verify = []//创建用于登录判断的数组
+                const userId = $('#userId').val()//获取学号
+
+                // 存储学号，密码用以登入判断
+                verify.push($('#userId').val(), $('#password').val())//将学号和密码存入verify数组
+                localStorage.setItem('l' + userId, JSON.stringify(verify))//将verify数组存入本地存储
+
+                // 存储学生各项数据
+                localStorage.setItem('d' + userId, JSON.stringify($(this).serializeArray()))//将所有数据存入本地存储
+                // const num = localStorage.getItem('userId')
+                swal('注册成功！')
+                setTimeout(() => {
+                    location.href = "logIn.html"
+                }, 1500)
+            }
+            else {
+                e.preventDefault()
+                swal('请填写完表单！')
+                $(this)[0].reset()
+            }
+
+        })
+    </script>
+</body>
+
+</html>

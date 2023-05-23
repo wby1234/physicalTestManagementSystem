@@ -1,0 +1,23 @@
+{
+  "id": "4066557",
+  "name": "字体图标",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1086150",
+      "name": "登入",
+      "font_class": "dengru",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "7090090",
+      "name": "注册",
+      "font_class": "zhuce",
+      "unicode": "e71c",
+      "unicode_decimal": 59164
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入</title>
+    <!-- 网站说明 -->
+    <meta name="description"
+        content="大学生体测信息管理系统是一款用于管理大学生体测信息的软件。该系统具有录入、查询、统计、分析、导出等功能，可以方便地对大学生的体测数据进行管理和分析，为学校的体育工作提供了有力的支持。通过该系统，可以更好地掌握学生的体质状况，为学生的身体健康和学校的体育教学提供保障。" />
+    <!-- 关键字 -->
+    <meta name=" keywords" content="大学生体测信息管理系统：管理大学生体测信息，包括身高、体重、BMI等指标，支持查询、修改和统计功能。" />
+    <!-- 引入favicon图标 -->
+    <link rel="shortcut icon" href="bitbug_favicon.ico" />
+    <!-- 导入SweetAlert包修改alert样式 -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- 导入jQuery包 -->
+    <script src="./js/jQuery.min.js"></script>
+    <!-- 导入鼠标点击样式 -->
+    <script src="./js/mouse.js"></script>
+    <style>
+        @font-face {
+            font-family: "iconfont";
+            /* Project id 4066557 */
+            src: url('./font/iconfont.woff2?t=1684045407710') format('woff2'),
+                url('./font/iconfont.woff?t=1684045407710') format('woff'),
+                url('./font/iconfont.ttf?t=1684045407710') format('truetype');
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            margin: 100;
+            padding: 0;
+            background: url(images/06c52eafea3a59a32e695c448f8ce813.png) no-repeat 0px 0px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+        }
+
+        #loginDiv {
+            margin: 12% auto;
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 335px;
+            background-color: rgba(75, 81, 95, 0.3);
+            box-shadow: 7px 7px 17px rgba(52, 56, 66, 0.5);
+            border-radius: 5px;
+        }
+
+        #name_trip {
+            margin-left: 50px;
+            color: red;
+        }
+
+        p,
+        .sexDiv {
+            margin-top: 45px;
+            margin-left: 20px;
+            color: azure;
+        }
+
+        .sexDiv>input,
+        .hobby>input {
+            width: 30px;
+            height: 17px;
+        }
+
+        input,
+        select {
+            margin-left: 25px;
+            border-radius: 5px;
+            border-style: hidden;
+            height: 30px;
+            width: 140px;
+            background-color: rgba(216, 191, 216, 0.5);
+            outline: none;
+            color: #f0edf3;
+            padding-left: 10px;
+        }
+
+        .button {
+            border-color: cornsilk;
+            background-color: rgba(100, 149, 237, .7);
+            color: aliceblue;
+            border-style: hidden;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 31px;
+            width: 100px;
+            height: 31px;
+            font-size: 16px;
+            margin: 0px;
+        }
+
+        #data :first-child {
+            margin-right: 15px;
+        }
+
+        #data :last-child {
+            margin-right: 20px;
+        }
+
+        .introduce {
+            margin-left: 110px;
+        }
+
+        .introduce>textarea {
+            background-color: rgba(216, 191, 216, 0.5);
+            border-style: hidden;
+            outline: none;
+            resize: none;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            color: #f0edf3;
+        }
+
+        b {
+            margin-left: 50px;
+            color: #FFEB3B;
+            font-size: 10px;
+            font-weight: initial;
+        }
+
+        .logo {
+            position: absolute;
+            top: 0;
+            left: 35px;
+        }
+
+        #userType option {
+            font-weight: 500;
+            color: rgba(255, 0, 0, 0.264);
+        }
+
+        .prompt {
+            position: absolute;
+            top: 65px;
+            right: 100px;
+            font-size: 16px;
+        }
+
+        .prompt a span {
+            font-family: "iconfont";
+            font-size: 30px;
+        }
+
+        .prompt a:hover {
+            color: red
+        }
+
+        .teacher {
+            position: absolute;
+            top: 30px;
+            right: 95px;
+            font-size: 16px;
+        }
+
+        .teacher a:hover {
+            color: red
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="logo">
+        <h1>
+            大学生体测信息管理系统
+        </h1>
+    </div>
+    <div class="prompt">
+        <a href="register.html" title="立即注册"><span>&#xe71c;</span>&nbsp;立即注册</a>
+    </div>
+    <div class="teacher">
+        <a href="teacherLogIn.html" title="教师端登入">教师端登入</a>
+    </div>
+    <div id="loginDiv">
+        <form id="logInForm" onkeydown="if(event.keyCode==13){return false;}">
+            <h1>登入</h1>
+            <p>学号:<input id="userId" name="userId" type="text" autocomplete="off"><label id="name_trip"></label></p>
+
+            <p>密码:<input id="password" name="password" type="password" autocomplete="off"><label
+                    id="password_trip"></label></p>
+            <p style="text-align: center;" id="data">
+                <input type="submit" class="button" value="提交">
+                <input type="reset" class="button" value="重置">
+            </p>
+        </form>
+    </div>
+    <script>
+        // 提交事件
+        $('#logInForm').on('submit', function (e) {
+            if ($('#userId').val() !== '' && $('#password').val() !== '') {
+                e.preventDefault()
+                const userId = $('#userId').val()//获取输入的学号
+
+                const num = JSON.parse(localStorage.getItem('l' + userId))//按输入的学号在本地存储中搜索对应的学号和密码
+                if (num === null) {
+                    e.preventDefault()
+                    swal('学号或密码错误！')
+                    $(this)[0].reset()
+                }
+                else {
+                    if ($('#userId').val() === num[0] && $('#password').val() === num[1]) {
+                        const arr = []  //创建arr数组存储学号，每登入存储一次
+
+                        //判断userIdArr数组之前是否有值
+                        if (localStorage.getItem('userIdArr') !== null) {
+                            arr.unshift.apply(arr, JSON.parse(localStorage.getItem('userIdArr')))
+                            arr.unshift(userId)
+                            const uniqueArr = [...new Set(arr)] //将arr数组去重并赋值给uniqueArr
+                            localStorage.setItem('userIdArr', JSON.stringify(uniqueArr))//将uniqueArr存入本地存储
+                        }
+                        else {
+                            arr.unshift(userId)
+                            const uniqueArr = [...new Set(arr)] //将arr数组去重并赋值给uniqueArr
+                            localStorage.setItem('userIdArr', JSON.stringify(uniqueArr))//将uniqueArr存入本地存储
+                        }
+                        location.href = "index.html"
+                    }
+                    else {
+                        e.preventDefault()
+                        swal('学号或密码错误！')
+                        $('#password').val('')
+                    }
+                }
+            }
+            else {
+                e.preventDefault()
+                swal('请填写完表单！')
+            }
+
+        })
+    </script>
+</body>
+
+</html>
